@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { HighlightInit } from "@highlight-run/next/client";
+import { getHighlightConfiguration } from "@/shared/vendors/highlight/configuration";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +13,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <>
+      <HighlightInit
+        projectId={getHighlightConfiguration().NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID}
+        serviceName="Next Highlight POC"
+        manualStart
+      />
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </>
   );
 }

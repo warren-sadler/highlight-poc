@@ -1,4 +1,22 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import { withHighlightConfig } from "@highlight-run/next/config";
 
-export default nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: [
+      "pino",
+      "pino-pretty",
+      "@highlight-run/node",
+    ],
+    instrumentationHook: true,
+  },
+  webpack(config, options) {
+    if (options.isServer) {
+      config.ignoreWarnings = [{ module: /highlight-(run\/)?node/ }];
+    }
+
+    return config;
+  },
+};
+
+export default withHighlightConfig(nextConfig);
